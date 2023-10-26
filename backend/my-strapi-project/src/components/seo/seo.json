@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_seo_seos",
+  "info": {
+    "displayName": "seo",
+    "icon": "cup",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "metaDesc": {
+      "type": "text"
+    },
+    "canonical": {
+      "type": "string"
+    },
+    "opengraphTitle": {
+      "type": "text"
+    },
+    "opengraphDescription": {
+      "type": "text"
+    },
+    "opengraphImage": {
+      "type": "component",
+      "repeatable": false,
+      "component": "opengraph-image.opengraph-image"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_opengraph_image_opengraph_images",
+  "info": {
+    "displayName": "opengraphImage"
+  },
+  "options": {},
+  "attributes": {
+    "sourceUrl": {
+      "type": "string"
+    }
+  }
+}

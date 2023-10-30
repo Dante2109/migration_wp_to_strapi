@@ -1,3 +1,4 @@
+const { category, tag } = require("./constants.js");
 const { getStrapiData } = require("./services/gettingStrapiData.js");
 const { callPostsData } = require("./services/gettingWordpressData.js");
 
@@ -37,26 +38,9 @@ const fillingtheData = async (data) => {
     return { name: el.node.name };
   });
 
-  let a = "[";
-  tags.forEach((el, i) => {
-    if (i == tags.length - 1) {
-      a += `{name:"${el.name}"}`;
-      return;
-    }
-    a += `{name:"${el.name}"},`;
-  });
-  let b = "[";
-  categories.forEach((el, i) => {
-    if (i == categories.length - 1) {
-      b += `{name:"${el.name}"}`;
-      return;
-    }
-    b += `{name:"${el.name}"},`;
-  });
-  b += "]";
-  a += "]";
-  tags = JSON.stringify(tags);
-  console.log(a, b);
+  let myTag = stringify(tags);
+  let myCategory = stringify(categories);
+  console.log(tag, category);
   let strapiData = await getStrapiData("posts");
   let ans = strapiData.find(({ attributes }) => attributes.slug === slug);
   if (ans) {
@@ -66,8 +50,8 @@ const fillingtheData = async (data) => {
         content:${content},
         excerpt:${excerpt},
         date:"${date}",
-        categories:${b},
-        tags:${a},
+        categories:${myCategory},
+        tags:${myTag},
         featuredImage:{sourceUrl:"${featuredImageUrl}",altText:"${featuredImagealtText}"},
         author:{avatar:{url:"${authorAvatar}"},name:"${authorName}",firstName:"${authorFirstName}",lastName:"${authorLastName}",email:"${authorEmail}"},
         seo:{title:"${seoTitle}",canonical:"${seoCanonical}",

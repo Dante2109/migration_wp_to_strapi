@@ -1,8 +1,8 @@
 const { getStrapiData } = require("./services/gettingStrapiData.js");
-const { callData } = require("./services/gettingWordpressData.js");
+const { callPostsData } = require("./services/gettingWordpressData.js");
 
 const getPosts = async () => {
-  let data = await callData("posts");
+  let data = await callPostsData("posts");
 
   await data.forEach(async (el) => await fillingtheData(el));
 };
@@ -11,6 +11,7 @@ getPosts();
 const fillingtheData = async (data) => {
   let title = data.title.toString();
   let content = JSON.stringify(data.content);
+  let excerpt = JSON.stringify(data.excerpt);
   let seoTitle = data.seo.title;
   let seoCanonical = data.seo.canonical;
   let seoMetaDesc = data.seo.metaDesc;
@@ -18,14 +19,58 @@ const fillingtheData = async (data) => {
   let opengraphTitle = data.seo.opengraphTitle;
   let opengraphDescription = data.seo.opengraphDescription;
   let opengraphImageUrl = data.seo.opengraphImage.sourceUrl;
-  console.log(data)
+  let date = data.date;
+  let featuredImageUrl = data.featuredImage.node.sourceUrl;
+  let featuredImagealtText = data.featuredImage.node.altText;
+  let authorAvatar = data.author.node.avatar.url;
+  let authorEmail = data.author.node.email;
+  let authorName = data.author.node.name;
+  let authorFirstName = data.author.node.firstName;
+  let authorLastName = data.author.node.lastName;
+  let categories = data.categories.edges;
+  categories = categories.map((el) => {
+    return { name: el.node.name };
+  });
+
+  let tags = data.tags.edges;
+  tags = tags.map((el) => {
+    return { name: el.node.name };
+  });
+
+  let a = "[";
+  tags.forEach((el, i) => {
+    if (i == tags.length - 1) {
+      a += `{name:"${el.name}"}`;
+      return;
+    }
+    a += `{name:"${el.name}"},`;
+  });
+  let b = "[";
+  categories.forEach((el, i) => {
+    if (i == categories.length - 1) {
+      b += `{name:"${el.name}"}`;
+      return;
+    }
+    b += `{name:"${el.name}"},`;
+  });
+  b += "]";
+  a += "]";
+  tags = JSON.stringify(tags);
+  console.log(a, b);
   let strapiData = await getStrapiData("posts");
   let ans = strapiData.find(({ attributes }) => attributes.slug === slug);
   if (ans) {
     let updateData = {
       query: `mutation{
         updatePost(id:${ans.id},data:{title:"${title}",slug:"${slug}",
-        content:${content},seo:{title:"${seoTitle}",canonical:"${seoCanonical}",
+        content:${content},
+        excerpt:${excerpt},
+        date:"${date}",
+        categories:${b},
+        tags:${a},
+        featuredImage:{sourceUrl:"${featuredImageUrl}",altText:"${featuredImagealtText}"},
+        author:{avatar:{url:"${authorAvatar}"},name:"${authorName}",firstName:"${authorFirstName}",lastName:"${authorLastName}",email:"${authorEmail}"},
+        seo:{title:"${seoTitle}",canonical:"${seoCanonical}",
         metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",
         opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}}}){
         data{

@@ -27,6 +27,28 @@
     },
     "slug": {
       "type": "string"
+    },
+    "author": {
+      "type": "component",
+      "repeatable": false,
+      "component": "author.author"
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "featuredImage": {
+      "type": "component",
+      "repeatable": false,
+      "component": "featured-image.featured-image"
+    },
+    "date": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "json"
+    },
+    "tags": {
+      "type": "json"
     }
   }
 }

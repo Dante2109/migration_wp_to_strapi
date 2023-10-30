@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_avatar_avatars",
+  "info": {
+    "displayName": "avatar"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "text"
+    }
+  }
+}

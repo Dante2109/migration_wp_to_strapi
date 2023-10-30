@@ -1,7 +1,7 @@
 const { getStrapiData } = require("./services/gettingStrapiData.js");
-const { callData } = require("./services/gettingWordpressData.js");
+const { callPagesData } = require("./services/gettingWordpressData.js");
 const getPages = async () => {
-  let data = await callData("pages");
+  let data = await callPagesData("pages");
 
   await data.forEach(async (el) => await fillingtheData(el));
 };
@@ -18,13 +18,25 @@ const fillingtheData = async (data) => {
 
   let opengraphDescription = data.seo.opengraphDescription;
 
+  let date = data.date;
+  let featuredImageUrl = data.featuredImage.node.sourceUrl;
+  let featuredImagealtText = data.featuredImage.node.altText;
+  let authorAvatar = data.author.node.avatar.url;
+  let authorEmail = data.author.node.email;
+  let authorName = data.author.node.name;
+  let authorFirstName = data.author.node.firstName;
+  let authorLastName = data.author.node.lastName;
+
   let strapiData = await getStrapiData("pages");
 
   let ans = strapiData.find(({ attributes }) => attributes.slug === slug);
   if (ans) {
     let updateData = {
       query: `mutation{
-        updatePage(id:${ans.id},data:{title:"${title}",slug:"${slug}",content:${content},seo:{title:"${seoTitle}",canonical:"${seoCanonical}",metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}}}){
+        updatePage(id:${ans.id},data:{title:"${title}",slug:"${slug}",content:${content},date:"${date}",
+        featuredImage:{sourceUrl:"${featuredImageUrl}",altText:"${featuredImagealtText}"},
+        author:{avatar:{url:"${authorAvatar}"},name:"${authorName}",firstName:"${authorFirstName}",lastName:"${authorLastName}",email:"${authorEmail}"},
+        seo:{title:"${seoTitle}",canonical:"${seoCanonical}",metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}}}){
         data{
           id
           attributes{
@@ -48,7 +60,10 @@ const fillingtheData = async (data) => {
   } else {
     let createData = {
       query: `mutation{
-          createPage(data:{title:"${title}",slug:"${slug}",content:${content},seo:{title:"${seoTitle}",canonical:"${seoCanonical}",metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",opengraphDescription:"${opengraphDescription}"}}){
+          createPage(data:{title:"${title}",slug:"${slug}",content:${content},date:"${date}",
+          featuredImage:{sourceUrl:"${featuredImageUrl}",altText:"${featuredImagealtText}"},
+          author:{avatar:{url:"${authorAvatar}"},name:"${authorName}",firstName:"${authorFirstName}",lastName:"${authorLastName}",email:"${authorEmail}"},
+          seo:{title:"${seoTitle}",canonical:"${seoCanonical}",metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",opengraphDescription:"${opengraphDescription}"}}){
           data{
             id
             attributes{

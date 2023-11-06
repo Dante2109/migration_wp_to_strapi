@@ -6,7 +6,7 @@
   "options": {},
   "attributes": {
     "sourceUrl": {
-      "type": "text"
+      "type": "string"
     },
     "altText": {
       "type": "string"

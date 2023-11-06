@@ -7,8 +7,6 @@ let getStrapiData = async (type) => {
                   attributes{
                     title
                     slug
-                    
-                    
                     }
                 }
               }
@@ -19,7 +17,7 @@ let getStrapiData = async (type) => {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer 47ba92af80187baea4c918d8377f8ad148523dddad7d5488ea7ed4e243dd857f1c1b381e0760a3ae5956fda4016786057d493784a389dbb3bf2ac08bc2268ee4f4fa4c6779ce8191cec4031ac81d3196a8c98c8fa70ed722a8cbc6901ed86b53ba9bb32e3e18d5748eae04760a5e845b7aad909420c07c80160a799ba30a43d0",
+        "Bearer 743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640",
     },
     body: JSON.stringify(query),
   });

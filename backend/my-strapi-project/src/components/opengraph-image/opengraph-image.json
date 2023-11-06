@@ -1,7 +1,8 @@
 {
   "collectionName": "components_opengraph_image_opengraph_images",
   "info": {
-    "displayName": "opengraphImage"
+    "displayName": "opengraphImage",
+    "description": ""
   },
   "options": {},
   "attributes": {

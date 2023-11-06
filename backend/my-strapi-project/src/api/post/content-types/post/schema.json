@@ -13,32 +13,44 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "content": {
-      "type": "text",
-      "required": true
-    },
-    "seo": {
-      "type": "component",
-      "repeatable": false,
-      "component": "seo.seo"
-    },
-    "slug": {
-      "type": "string"
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
     },
     "author": {
       "type": "component",
       "repeatable": false,
       "component": "author.author"
     },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "seo.seo"
+    },
     "excerpt": {
-      "type": "text"
+      "type": "string"
+    },
+    "tags": {
+      "type": "customField",
+      "customField": "plugin::multi-select.multi-select",
+      "options": [
+        "Food",
+        "IRCTC",
+        "Ipsator",
+        ""
+      ]
+    },
+    "slug": {
+      "type": "string"
     },
     "featuredImage": {
       "type": "component",
-      "repeatable": false,
+      "repeatable": true,
       "component": "featured-image.featured-image"
     },
     "date": {
@@ -47,8 +59,16 @@
     "categories": {
       "type": "json"
     },
-    "tags": {
-      "type": "json"
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

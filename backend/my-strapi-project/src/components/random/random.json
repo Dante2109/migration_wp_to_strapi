@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_random_randoms",
+  "info": {
+    "displayName": "random"
+  },
+  "options": {},
+  "attributes": {
+    "randomtext": {
+      "type": "string"
+    }
+  }
+}

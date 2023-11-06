@@ -21,7 +21,7 @@ export interface AvatarAvatar extends Schema.Component {
     displayName: 'avatar';
   };
   attributes: {
-    url: Attribute.Text;
+    url: Attribute.String;
   };
 }
 
@@ -31,7 +31,7 @@ export interface FeaturedImageFeaturedImage extends Schema.Component {
     displayName: 'featuredImage';
   };
   attributes: {
-    sourceUrl: Attribute.Text;
+    sourceUrl: Attribute.String;
     altText: Attribute.String;
   };
 }
@@ -40,9 +40,20 @@ export interface OpengraphImageOpengraphImage extends Schema.Component {
   collectionName: 'components_opengraph_image_opengraph_images';
   info: {
     displayName: 'opengraphImage';
+    description: '';
   };
   attributes: {
     sourceUrl: Attribute.String;
+  };
+}
+
+export interface RandomRandom extends Schema.Component {
+  collectionName: 'components_random_randoms';
+  info: {
+    displayName: 'random';
+  };
+  attributes: {
+    randomtext: Attribute.String;
   };
 }
 
@@ -50,15 +61,14 @@ export interface SeoSeo extends Schema.Component {
   collectionName: 'components_seo_seos';
   info: {
     displayName: 'seo';
-    icon: 'cup';
     description: '';
   };
   attributes: {
     title: Attribute.String;
-    metaDesc: Attribute.Text;
+    metaDesc: Attribute.String;
     canonical: Attribute.String;
-    opengraphTitle: Attribute.Text;
-    opengraphDescription: Attribute.Text;
+    opengraphTitle: Attribute.String;
+    opengraphDescription: Attribute.String;
     opengraphImage: Attribute.Component<'opengraph-image.opengraph-image'>;
   };
 }
@@ -70,6 +80,7 @@ declare module '@strapi/types' {
       'avatar.avatar': AvatarAvatar;
       'featured-image.featured-image': FeaturedImageFeaturedImage;
       'opengraph-image.opengraph-image': OpengraphImageOpengraphImage;
+      'random.random': RandomRandom;
       'seo.seo': SeoSeo;
     }
   }

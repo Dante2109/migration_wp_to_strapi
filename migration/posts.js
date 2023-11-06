@@ -1,4 +1,4 @@
-const { category, tag } = require("./constants.js");
+const { stringify } = require("./constants.js");
 const { getStrapiData } = require("./services/gettingStrapiData.js");
 const { callPostsData } = require("./services/gettingWordpressData.js");
 
@@ -10,7 +10,7 @@ const getPosts = async () => {
 getPosts();
 
 const fillingtheData = async (data) => {
-  let title = data.title.toString();
+  let title = data.title;
   let content = JSON.stringify(data.content);
   let excerpt = JSON.stringify(data.excerpt);
   let seoTitle = data.seo.title;
@@ -35,12 +35,10 @@ const fillingtheData = async (data) => {
 
   let tags = data.tags.edges;
   tags = tags.map((el) => {
-    return { name: el.node.name };
+    return el.node.name;
   });
-
-  let myTag = stringify(tags);
+  let myTag = JSON.stringify(tags);
   let myCategory = stringify(categories);
-  console.log(tag, category);
   let strapiData = await getStrapiData("posts");
   let ans = strapiData.find(({ attributes }) => attributes.slug === slug);
   if (ans) {
@@ -53,10 +51,11 @@ const fillingtheData = async (data) => {
         categories:${myCategory},
         tags:${myTag},
         featuredImage:{sourceUrl:"${featuredImageUrl}",altText:"${featuredImagealtText}"},
-        author:{avatar:{url:"${authorAvatar}"},name:"${authorName}",firstName:"${authorFirstName}",lastName:"${authorLastName}",email:"${authorEmail}"},
         seo:{title:"${seoTitle}",canonical:"${seoCanonical}",
         metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",
-        opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}}}){
+        opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}
+      }
+    }){
         data{
           id
           attributes{
@@ -66,21 +65,36 @@ const fillingtheData = async (data) => {
       }
     }`,
     };
-    let newData = await fetch("http://0.0.0.0:1337/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer 47ba92af80187baea4c918d8377f8ad148523dddad7d5488ea7ed4e243dd857f1c1b381e0760a3ae5956fda4016786057d493784a389dbb3bf2ac08bc2268ee4f4fa4c6779ce8191cec4031ac81d3196a8c98c8fa70ed722a8cbc6901ed86b53ba9bb32e3e18d5748eae04760a5e845b7aad909420c07c80160a799ba30a43d0",
-      },
-      body: JSON.stringify(updateData),
-    });
-    newData = await newData.json();
-    console.log("UPDATION", newData);
+    try {
+      
+      let newData = await fetch("http://0.0.0.0:1337/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+          "Bearer 743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640",
+        },
+        body: JSON.stringify(updateData),
+      });
+      newData = await newData.json();
+      console.log("UPDATION", newData);
+    } catch (error) {
+      console.log(error)
+    }
   } else {
     let createData = {
       query: `mutation{
-          createPost(data:{title:"${title}",slug:"${slug}",content:${content},seo:{title:"${seoTitle}",canonical:"${seoCanonical}",metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",opengraphDescription:"${opengraphDescription}"}}){
+          createPost(data:{title:"${title}",slug:"${slug}",
+          content:${content},
+          excerpt:${excerpt},
+          date:"${date}",
+          categories:${myCategory},
+          tags:${myTag},
+          featuredImage:{sourceUrl:"${featuredImageUrl}",altText:"${featuredImagealtText}"},
+          author:{avatar:{url:"${authorAvatar}"},name:"${authorName}",firstName:"${authorFirstName}",lastName:"${authorLastName}",email:"${authorEmail}"},
+          seo:{title:"${seoTitle}",canonical:"${seoCanonical}",
+          metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",
+          opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}}}){
           data{
             id
             attributes{
@@ -90,16 +104,21 @@ const fillingtheData = async (data) => {
         }
       }`,
     };
-    let newData = await fetch("http://0.0.0.0:1337/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer 47ba92af80187baea4c918d8377f8ad148523dddad7d5488ea7ed4e243dd857f1c1b381e0760a3ae5956fda4016786057d493784a389dbb3bf2ac08bc2268ee4f4fa4c6779ce8191cec4031ac81d3196a8c98c8fa70ed722a8cbc6901ed86b53ba9bb32e3e18d5748eae04760a5e845b7aad909420c07c80160a799ba30a43d0",
-      },
-      body: JSON.stringify(createData),
-    });
-    newData = await newData.json();
-    console.log("CREATION", newData);
+    try {
+      
+      let newData = await fetch("http://0.0.0.0:1337/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+          "Bearer da5129e0c69341a4d5acab6c5d27e7a14d88e17d7f69543c8630c9972ab51c62aeb16bccb5f901b0c47bd2cdb8b368eb4b067538750bf682a6aba55000465ea4b08b031931fc68a7aa2b379392a743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640c623291cf7953376378481be6545098babd6d961b0fb6fed364bab37505421a799d1b46548bc9488b7e5974205f325ec4f322",
+        },
+        body: JSON.stringify(createData),
+      });
+      newData = await newData.json();
+      console.log("CREATION", newData);
+    } catch (error) {
+      console.log(error)
+    }
   }
 };

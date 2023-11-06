@@ -13,14 +13,10 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
-    },
-    "content": {
-      "type": "text",
-      "required": true
+      "type": "string"
     },
     "seo": {
+      "displayName": "seo",
       "type": "component",
       "repeatable": false,
       "component": "seo.seo"
@@ -30,16 +26,34 @@
     },
     "author": {
       "type": "component",
-      "repeatable": false,
+      "repeatable": true,
       "component": "author.author"
     },
     "featuredImage": {
       "type": "component",
-      "repeatable": false,
+      "repeatable": true,
       "component": "featured-image.featured-image"
     },
     "date": {
       "type": "string"
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

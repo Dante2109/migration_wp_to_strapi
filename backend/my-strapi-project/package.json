@@ -1,5 +1,5 @@
 {
-  "name": "my-strapi-project",
+  "name": "my-project",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -10,20 +10,22 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-graphql": "^4.14.4",
-    "@strapi/plugin-i18n": "4.14.4",
-    "@strapi/plugin-users-permissions": "4.14.4",
-    "@strapi/strapi": "4.14.4",
-    "better-sqlite3": "8.6.0"
+    "@_sh/strapi-plugin-ckeditor": "^2.0.4",
+    "@strapi/plugin-graphql": "^4.15.0",
+    "@strapi/plugin-i18n": "4.15.0",
+    "@strapi/plugin-users-permissions": "4.15.0",
+    "@strapi/strapi": "4.15.0",
+    "better-sqlite3": "8.6.0",
+    "strapi-plugin-multi-select": "^1.2.2"
   },
   "author": {
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "dfcefcf4-062a-4af2-bae0-5d090d908a8f"
+    "uuid": "94b85861-a2d6-4021-95ed-c203b1c204d9"
   },
   "engines": {
-    "node": ">=16.0.0 <=20.x.x",
+    "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"

@@ -1,11 +1,11 @@
-let api = "http://localhost/wordpress/graphql";
+let api = "http://localhost/migrating_data/graphql";
 const callPostsData = async (type) => {
   let query = {
     query: `query{
           ${type}{
             nodes{
               title
-             content
+              content
               excerpt
               slug
               date
@@ -64,14 +64,14 @@ const callPostsData = async (type) => {
       body: JSON.stringify(query),
     });
     data = await data.json();
-    data = data.data?.pages?.nodes || data.data.posts?.nodes;
+    data = data.data?.pages?.nodes || data.data?.posts?.nodes;
 
     return data;
   } catch (error) {
     console.log(error);
   }
 };
-let ans = callPostsData("posts").then((res) => console.log(res[0].categories.edges));
+// let ans = callPostsData("posts").then((res) => console.log(res));
 
 const callPagesData = async (type) => {
   let query = {
@@ -80,7 +80,6 @@ const callPagesData = async (type) => {
             nodes{
               title
              content
-          
               slug
               date
               featuredImage {

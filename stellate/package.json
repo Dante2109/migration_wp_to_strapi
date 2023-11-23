@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "stellate": "^2.6.0"
+  }
+}

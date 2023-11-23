@@ -1,8 +1,8 @@
-let api = "http://localhost/migrating_data/graphql";
-const callPostsData = async (type) => {
+let api = "https://blog-ecatering-cdn.ipsator.com";
+const callPostsData = async () => {
   let query = {
     query: `query{
-          ${type}{
+          posts(first:53){
             nodes{
               title
               content
@@ -15,7 +15,6 @@ const callPostsData = async (type) => {
                   altText
                 }
               }
-              
              seo{
               canonical
               title
@@ -64,19 +63,20 @@ const callPostsData = async (type) => {
       body: JSON.stringify(query),
     });
     data = await data.json();
-    data = data.data?.pages?.nodes || data.data?.posts?.nodes;
-
+    data = data.data?.posts?.nodes;
+  
+    
     return data;
   } catch (error) {
     console.log(error);
   }
 };
-// let ans = callPostsData("posts").then((res) => console.log(res));
+callPostsData("posts")
 
-const callPagesData = async (type) => {
+const callPagesData = async () => {
   let query = {
     query: `query{
-          ${type}{
+          pages(first:1000){
             nodes{
               title
              content
@@ -124,14 +124,13 @@ const callPagesData = async (type) => {
       body: JSON.stringify(query),
     });
     data = await data.json();
-    data = data.data?.pages?.nodes || data.data.posts?.nodes;
+    data = data.data?.pages?.nodes
 
     return data;
   } catch (error) {
     console.log(error);
   }
 };
-
 module.exports = {
   callPostsData,
   callPagesData,

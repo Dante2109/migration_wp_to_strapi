@@ -1,0 +1,9 @@
+module.exports=({env})=>({
+  "stellate":{
+    enabled:true,
+    config:{
+      stellateToken:"ca2269045771ded37def87e6953ab25bf0326b1722d8eef70d38a9d57cb9134b",
+      stellateUrl:"http://localhost:3010",
+    }
+  }
+})

@@ -1,7 +1,7 @@
 let getStrapiData = async (type) => {
   let query = {
     query: `query{
-            ${type}{
+            ${type}(pagination:{limit:100}){
                 data{
                     id
                   attributes{

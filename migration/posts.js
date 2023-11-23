@@ -1,13 +1,13 @@
+require("dotenv").config({path:"./migration/.env"})
 const { stringify } = require("./constants.js");
 const { getStrapiData } = require("./services/gettingStrapiData.js");
 const { callPostsData } = require("./services/gettingWordpressData.js");
-
 const getPosts = async () => {
   let data = await callPostsData("posts");
-
-  await data.forEach(async (el) => await fillingtheData(el));
+  let count=0
+  await data.forEach(async (el) => {await fillingtheData(el);console.log(++count)});
+  
 };
-getPosts();
 
 const fillingtheData = async (data) => {
   let title = data.title;
@@ -18,11 +18,11 @@ const fillingtheData = async (data) => {
   let seoMetaDesc = data.seo.metaDesc;
   let slug = data.slug;
   let opengraphTitle = data.seo.opengraphTitle;
-  let opengraphDescription = data.seo.opengraphDescription;
-  let opengraphImageUrl = data.seo.opengraphImage.sourceUrl;
-  let date = data.date;
-  let featuredImageUrl = data.featuredImage.node.sourceUrl;
-  let featuredImagealtText = data.featuredImage.node.altText;
+  let opengraphDescription = data.seo?.opengraphDescription || "";
+  let opengraphImageUrl = data?.seo?.opengraphImage?.sourceUrl || "";
+  let date = data?.date;
+  let featuredImageUrl = data?.featuredImage?.node?.sourceUrl || "";
+  let featuredImagealtText = data.featuredImage?.node?.altText || "";
   let authorAvatar = data.author.node.avatar.url;
   let authorEmail = data.author.node.email;
   let authorName = data.author.node.name;
@@ -72,7 +72,7 @@ const fillingtheData = async (data) => {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-          "Bearer 743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640",
+          `Bearer ${process.env.STRAPI_AUTH_TOKEN}`,
         },
         body: JSON.stringify(updateData),
       });
@@ -95,10 +95,10 @@ const fillingtheData = async (data) => {
           seo:{title:"${seoTitle}",canonical:"${seoCanonical}",
           metaDesc:"${seoMetaDesc}",opengraphTitle:"${opengraphTitle}",
           opengraphDescription:"${opengraphDescription}",opengraphImage:{sourceUrl:"${opengraphImageUrl}"}}}){
-          data{
-            id
-            attributes{
-              title
+            data{
+              id
+              attributes{
+                title
             }
           }
         }
@@ -111,7 +111,7 @@ const fillingtheData = async (data) => {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-          "Bearer da5129e0c69341a4d5acab6c5d27e7a14d88e17d7f69543c8630c9972ab51c62aeb16bccb5f901b0c47bd2cdb8b368eb4b067538750bf682a6aba55000465ea4b08b031931fc68a7aa2b379392a743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640c623291cf7953376378481be6545098babd6d961b0fb6fed364bab37505421a799d1b46548bc9488b7e5974205f325ec4f322",
+          `Bearer ${process.env.STRAPI_AUTH_TOKEN}`,
         },
         body: JSON.stringify(createData),
       });
@@ -121,4 +121,11 @@ const fillingtheData = async (data) => {
       console.log(error)
     }
   }
+  // setTimeout to avoid api rate limit for posting in strapi cms
+  setTimeout(()=>{
+    console.log("COMPLETED")
+  },1000)
+  
 };
+
+getPosts();

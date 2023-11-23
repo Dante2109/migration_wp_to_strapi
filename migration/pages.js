@@ -1,34 +1,36 @@
+require('dotenv').config({path:"./migration/.env"})
+
 const { getStrapiData } = require("./services/gettingStrapiData.js");
 const { callPagesData } = require("./services/gettingWordpressData.js");
+console.log(process.env.STRAPI_AUTH_TOKEN)
 const getPages = async () => {
   let data = await callPagesData("pages");
-
-  await data.forEach(async (el) => await fillingtheData(el));
+  let count=0
+  await data.forEach(async (el) => {await fillingtheData(el);console.log(++count)});
 };
-getPages();
-const fillingtheData = async (data) => {
-  let title = data.title.toString();
-  let content = JSON.stringify(data.content);
-  let seoTitle = data.seo.title;
-  let seoCanonical = data.seo.canonical;
-  let seoMetaDesc = data.seo.metaDesc;
-  let slug = data.slug;
-  let opengraphTitle = data.seo.opengraphTitle;
-  let opengraphImageUrl = data.seo.opengraphImage.sourceUrl;
+
+
+const fillingtheData =async (data) => {
+  let title = data.title?.toString();
+  let content = JSON.stringify(data?.content);
+  let seoTitle = data?.seo?.title;
+  let seoCanonical = data?.seo?.canonical;
+  let seoMetaDesc = data?.seo?.metaDesc;
+  let slug = data?.slug;
+  let opengraphTitle = data?.seo?.opengraphTitle;
+  let opengraphImageUrl = data?.seo?.opengraphImage?.sourceUrl || "" ;
+  let opengraphDescription = data?.seo?.opengraphDescription || "";
+  let date = data?.date;
+  let featuredImageUrl = data?.featuredImage?.node?.sourceUrl || "";
+  let featuredImagealtText = data?.featuredImage?.node?.altText;
+  let authorAvatar = data?.author?.node?.avatar?.url;
+  let authorEmail = data?.author?.node?.email;
+  let authorName = data?.author?.node?.name;
+  let authorFirstName = data?.author?.node?.firstName;
+  let authorLastName = data?.author?.node?.lastName;
   
-  let opengraphDescription = data.seo.opengraphDescription;
-
-  let date = data.date;
-  let featuredImageUrl = data.featuredImage.node.sourceUrl;
-  let featuredImagealtText = data.featuredImage.node.altText;
-  let authorAvatar = data.author.node.avatar.url;
-  let authorEmail = data.author.node.email;
-  let authorName = data.author.node.name;
-  let authorFirstName = data.author.node.firstName;
-  let authorLastName = data.author.node.lastName;
-
   let strapiData = await getStrapiData("pages");
-
+  
   let ans = strapiData.find(({ attributes }) => attributes.slug === slug);
   if (ans) {
     let updateData = {
@@ -51,7 +53,7 @@ const fillingtheData = async (data) => {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640",
+        `Bearer ${process.env.STRAPI_AUTH_TOKEN}`
       },
       body: JSON.stringify(updateData),
     });
@@ -78,11 +80,17 @@ const fillingtheData = async (data) => {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640",
+          `Bearer ${process.env.STRAPI_AUTH_TOKEN}`
       },
       body: JSON.stringify(createData),
     });
     newData = await newData.json();
     console.log("CREATION", newData);
   }
+  // setTimeout to avoid api rate limit for posting in strapi cms
+  setTimeout(()=>{
+    console.log("COMPLETED")
+  },1000)
 };
+
+getPages();

@@ -156,7 +156,8 @@ const postImage=async(data,id,imageFileName)=>{
           newData = await newData.json();
           console.log("UPDATION", newData);
         } catch (error) {
-          console.log(error)
+          console.log("error",error)
+
         }
       
        

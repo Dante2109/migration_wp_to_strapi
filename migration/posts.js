@@ -1,4 +1,4 @@
-require("dotenv").config({path:"./migration/.env"})
+require("dotenv").config()
 const { stringify } = require("./constants.js");
 const { getStrapiData } = require("./services/gettingStrapiData.js");
 const { callPostsData } = require("./services/gettingWordpressData.js");

@@ -65,7 +65,6 @@ const callPostsData = async () => {
     data = await data.json();
     data = data.data?.posts?.nodes;
   
-    
     return data;
   } catch (error) {
     console.log(error);

@@ -69,6 +69,12 @@
         "videos",
         "audios"
       ]
+    },
+    "tagNames": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "mappedBy": "tag"
     }
   }
 }

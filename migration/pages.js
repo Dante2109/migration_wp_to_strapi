@@ -1,8 +1,8 @@
-require('dotenv').config({path:"./migration/.env"})
+require('dotenv').config()
 
 const { getStrapiData } = require("./services/gettingStrapiData.js");
 const { callPagesData } = require("./services/gettingWordpressData.js");
-console.log(process.env.STRAPI_AUTH_TOKEN)
+console.log("asdm",process.env.STRAPI_AUTH_TOKEN)
 const getPages = async () => {
   let data = await callPagesData("pages");
   let count=0
@@ -30,8 +30,10 @@ const fillingtheData =async (data) => {
   let authorLastName = data?.author?.node?.lastName;
   
   let strapiData = await getStrapiData("pages");
-  
+  console.log("STRAPIDATA",strapiData)
+  console.log("ANS",slug);
   let ans = strapiData.find(({ attributes }) => attributes.slug === slug);
+  console.log("ANS",slug);
   if (ans) {
     let updateData = {
       query: `mutation{

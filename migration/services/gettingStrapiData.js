@@ -1,7 +1,7 @@
 let getStrapiData = async (type) => {
   let query = {
     query: `query{
-            ${type}(pagination:{limit:100}){
+            ${type}(pagination:{start:0,limit:100}){
                 data{
                     id
                   attributes{
@@ -17,7 +17,7 @@ let getStrapiData = async (type) => {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer 743f20979ac960e84e461567ed409323f3348264c8bada5e84cec4bab10f11dfe2bcbc718632eb4392619328f29347f53d8042d29c94758641d9b58ba3828867c8393871fc2b22fd0e277648b12edb9182c0a0635c74810a92a46e6f983d54cb0076e178b56c479812979b79aee7bd1862679f9823161fbf9e4dc424b704b640",
+        "Bearer cf3ae97929a0fc2025bca6ae7ad59b5cdd11bbfed064eac18c8a411618653039acf5bf16b6af9a919016af73890b35356624ca539a0e74c0e3b47770c9bbccdeb1dcaee4cb150b28728af2ef0b56bddef8b07526bf72bbc6500b1d6514d849f64b2a5326f6d1341c036f5c262933a4b6bb44859484b0dfe8c6360e254409340a",
     },
     body: JSON.stringify(query),
   });
@@ -25,7 +25,7 @@ let getStrapiData = async (type) => {
   newData = newData.data?.pages?.data || newData.data?.posts?.data;
   return newData;
 };
-
+getStrapiData("posts").then(res=>console.log(res))
 module.exports = {
   getStrapiData,
 };
